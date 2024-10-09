@@ -9,6 +9,8 @@ export type ProductResponse = {
     image: string
 }
 
-export interface ListProducts {
-    getProducts(): Promise<Result<ProductResponse>>
+export interface IListProductsGateway {
+    getProducts(): Promise<Result<ProductResponse[]>>
 }
+
+export const listProductsGatewayDI = "listProductsGatewayDI"
