@@ -1,5 +1,4 @@
 import { IListProductsGateway, ProductResponse } from "@/domain/gateways/products/ListProductsGateway";
-import Result from "@/domain/Result";
 import { type HttpClient, httpClientDI } from "@/infra/client/HttpClient";
 import { inject, injectable } from "inversify";
 import "reflect-metadata"
@@ -13,13 +12,13 @@ export class ListProductsGateway implements IListProductsGateway {
 
     }
     
-    async getProducts(): Promise<Result<ProductResponse[]>> {
+    async getProducts(): Promise<ProductResponse[]> {
         const data = await this.client.get<ProductResponse[]>({
             url: "https://fakestoreapi.com/products",
         })
 
-        if(data.isFailure) return Result.fail(data.error)
+        if(data.isFailure) throw new Error(data.error)
 
-        return Result.ok(data.getValue())
+        return data.getValue()
     }
 }

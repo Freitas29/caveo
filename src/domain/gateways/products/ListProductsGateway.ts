@@ -1,5 +1,3 @@
-import Result from "@/domain/Result";
-
 export type ProductResponse = {
     id: number
     title: string
@@ -10,7 +8,7 @@ export type ProductResponse = {
 }
 
 export interface IListProductsGateway {
-    getProducts(): Promise<Result<ProductResponse[]>>
+    getProducts(): Promise<ProductResponse[]>
 }
 
 export const listProductsGatewayDI = "listProductsGatewayDI"

@@ -1,12 +1,20 @@
+"use client";
+import { queryOptions,  useSuspenseQuery } from "@tanstack/react-query"
 import { container } from "../../../inversify.config"
 import { IListProductsGateway, listProductsGatewayDI } from "@/domain/gateways/products/ListProductsGateway"
 
-export default async function Page() {
+export default function Page() {
     const gateway = container.get<IListProductsGateway>(listProductsGatewayDI)
-    
-    const data = await gateway.getProducts()
+    const productsOptions = queryOptions({
+        queryKey: ['products'],
+        queryFn: async () => {
+            const response = gateway.getProducts()
 
-    return <h1>{data.getValue().map(item => (
-        <div key={item.id}>{item.title}</div>
-    ))}</h1>
+            return response
+        },
+    })
+
+    const products = useSuspenseQuery(productsOptions)
+
+    return <label>list: {products.data.map(item => (item.title))}</label>
 }
