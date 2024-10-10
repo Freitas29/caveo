@@ -1,9 +1,10 @@
 import { Card, CardActionArea, CardMedia, CardContent, Typography, CardActions, Button } from "@mui/material";
 
 type Props = {
-    image: string
-    title: string
-    description: string
+  image: string
+  title: string
+  description: string
+  onClick: () => void
 }
 
 export function ProductCard(props: Props) {
@@ -48,7 +49,7 @@ export function ProductCard(props: Props) {
           </CardContent>
         </CardActionArea>
         <CardActions disableSpacing>
-          <Button variant="contained" aria-label="add to Cart">
+          <Button onClick={props.onClick} variant="contained" aria-label="add to Cart">
             Add to shopping cart
           </Button>
         </CardActions>

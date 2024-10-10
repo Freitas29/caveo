@@ -4,9 +4,12 @@ import { useQuery } from "@tanstack/react-query";
 import { Container, Grid2, Skeleton } from "@mui/material";
 import { ListProducts, listProductsUseCaseDI } from "@/domain/useCases/products/ListProducts";
 import { ProductCard } from "./products/ProductCard";
+import { useShoppingCart } from "./shopping-cart/useShoppingCart";
 
 
 export default function Home() {
+  const { addProduct } = useShoppingCart()
+
   const useCase = container.get<ListProducts>(listProductsUseCaseDI)
   const products = useQuery({
       queryKey: ['products'],
@@ -27,6 +30,7 @@ export default function Home() {
         description: item.description,
         image: item.image,
         title: item.title,
+        onClick: () => addProduct(item),
       })
    }
    </Grid2>

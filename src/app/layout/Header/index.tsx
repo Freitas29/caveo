@@ -1,7 +1,12 @@
-import { Container, Grid2, IconButton } from "@mui/material";
+"use client";
+import { Badge, Container, Grid2, IconButton } from "@mui/material";
 
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import { useShoppingCart } from "@/app/shopping-cart/useShoppingCart";
+
 export default function Header() {
+    const products = useShoppingCart((state) => state.products)
+
     return (
         <Container sx={{
             margin: 0,
@@ -15,7 +20,9 @@ export default function Header() {
         }}>
             <Grid2>
             <IconButton color="primary" aria-label="add to shopping cart">
-                <AddShoppingCartIcon />
+                <Badge badgeContent={products.length} color="primary">
+                    <AddShoppingCartIcon />
+                </Badge>
             </IconButton>
             </Grid2>
         </Container>
