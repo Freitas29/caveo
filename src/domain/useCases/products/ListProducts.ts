@@ -14,3 +14,5 @@ export type ListProductsOutput = {
 export interface ListProducts {
     getProducts(): Promise<Result<ListProductsOutput>>
 }
+
+export const listProductsUseCaseDI = "listProductsUseCaseDI"
