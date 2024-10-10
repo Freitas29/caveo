@@ -3,15 +3,16 @@ import { persist } from 'zustand/middleware'
 
 import { toast } from 'react-toastify';
 
-type ProductState = {
-    id: number
-    title: string
-    image: string
+export type ProductState = {
+  id: number
+  title: string
+  image: string
 }
 
 type ShoppingCartState = {
   products: ProductState[]
   addProduct: (product: ProductState) => void
+  removeProduct: (id: number) => void
 }
 
 export const useShoppingCart = create<ShoppingCartState>()(
@@ -29,6 +30,13 @@ export const useShoppingCart = create<ShoppingCartState>()(
              ...state,
               products: [...state.products, newProduct],
             }
+          }),
+          removeProduct: (productId) => set((state) => {
+            debugger
+            return {
+              ...state,
+               products: state.products.filter(product => product.id !== productId),
+             }
           }),
         }),
         {
