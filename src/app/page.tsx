@@ -4,14 +4,12 @@ import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { IListProductsGateway, listProductsGatewayDI, ProductResponse } from "@/domain/gateways/products/ListProductsGateway";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import {  CardActionArea, CardMedia, Grid2, Typography } from "@mui/material";
-
-
+import {  Button, CardActionArea, CardActions, CardMedia, Container, Grid2, IconButton, Typography } from "@mui/material";
 function RenderCard(props: ProductResponse) {
   return (
-    <Card sx={{ maxWidth: "100%", minHeight: "20rem",  maxHeight: "20rem" }}>
+    <Card sx={{ maxWidth: "100%", minHeight: "20rem" }}>
       <CardActionArea sx={{
-          maxHeight: "20rem",
+          // maxHeight: "20rem",
           minHeight: "20rem",
         }}>
         <CardMedia
@@ -49,6 +47,11 @@ function RenderCard(props: ProductResponse) {
           </Typography>
         </CardContent>
       </CardActionArea>
+      <CardActions disableSpacing>
+        <Button variant="contained" aria-label="add to Cart">
+          Add to shopping cart
+        </Button>
+      </CardActions>
     </Card>
   );
 }
@@ -67,10 +70,12 @@ export default function Home() {
   const products = useSuspenseQuery(productsOptions)
 
   return (
-    <Grid2 container spacing={2}>
-      {products.data.map(item => (
-        <Grid2 size={4} key={item.id}> {RenderCard(item)} </Grid2>
-      ))}
-    </Grid2>
+    <Container sx={{
+      marginTop: 3,
+    }}>
+      <Grid2 container spacing={2}>
+        {products.data.map(item => (<Grid2 size={4} key={item.id}> {RenderCard(item)} </Grid2>))}
+      </Grid2>
+    </Container>
   )
 }
