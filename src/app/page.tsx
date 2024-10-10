@@ -21,7 +21,7 @@ export default function Home() {
   })
 
   const productList = () => products.data.map(item => (
-    <Grid2 size={4} key={item.id}> 
+    <Grid2 size={{ xs:12, sm: 6, md:4, lg:4, }} key={item.id}> 
     {
       ProductCard({
         description: item.description,
@@ -33,7 +33,7 @@ export default function Home() {
   ))
 
   const loadingList = () => [...Array.from({ length: 9 })].map((_, index) => (
-    <Grid2 size={4} key={index}>
+    <Grid2 size={{ xs:12, sm: 6, md:4, lg:4, }} key={index}>
       <Skeleton  key={index} variant="rectangular" width="100%" height="20rem" />
     </Grid2>
   ))
