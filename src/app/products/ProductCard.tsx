@@ -1,4 +1,5 @@
-import { Card, CardActionArea, CardMedia, CardContent, Typography, CardActions, Button } from "@mui/material";
+import { Card, CardActionArea, CardMedia, CardContent, Typography, CardActions, IconButton } from "@mui/material";
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 type Props = {
   image: string
@@ -49,9 +50,9 @@ export function ProductCard(props: Props) {
           </CardContent>
         </CardActionArea>
         <CardActions disableSpacing>
-          <Button onClick={props.onClick} variant="contained" aria-label="add to Cart">
-            Add to shopping cart
-          </Button>
+          <IconButton color="primary" onClick={props.onClick} aria-label="add to Cart">
+            <AddShoppingCartIcon />
+          </IconButton>
         </CardActions>
       </Card>
     );
