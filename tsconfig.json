@@ -3,6 +3,7 @@
     "lib": ["dom", "es6", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
+    "baseUrl": ".",
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -11,7 +12,7 @@
     "resolveJsonModule": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "types": ["reflect-metadata"],
+    "types": ["reflect-metadata", "vite/client", "vitest/globals",],
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
@@ -21,7 +22,7 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["src/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
