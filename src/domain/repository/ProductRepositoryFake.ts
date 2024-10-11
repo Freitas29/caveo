@@ -14,7 +14,7 @@ export class ProductRepositoryFake implements ProductsRepository<Product> {
         return Result.ok(product)
     }
     async removeProduct(id: number): Promise<Result<boolean>> {
-        this.products = this.products.filter(product => product.id === id)
+        this.products = this.products.filter(product => product.id !== id)
         return Result.ok(true)
     }
 }

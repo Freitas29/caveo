@@ -2,7 +2,7 @@ import { ProductsRepository } from "@/domain/repository/ProductsRespository"
 import { Product } from "@/domain/entities/Product"
 import { ProductRepositoryFake } from "@/domain/repository/ProductRepositoryFake"
 import { describe, it, expect } from "vitest"
-import { GetAllProductsInShoppingCartAdapter } from "./GetAllProductsInShoppingCartAdapter"
+import { RemoveProductInShoppingCartAdapter } from "./RemoveProductInShoppingCartAdapter"
 
 describe("GetAllProductsUseCase", () => {
 
@@ -31,13 +31,19 @@ describe("GetAllProductsUseCase", () => {
                 title: "Teste"
             })
         ]) 
-        const useCase = new GetAllProductsInShoppingCartAdapter(repo)
-        
-        const response = await useCase.getAllProducts()
 
-        expect(response.products).toHaveLength(3)
-        expect(response.products[0].title).toBe("Teste")
-        expect(response.products[0].imageUrl).toBe("imagem.jpg")
-        expect(response.products[0].id).toBe(1)
+        const useCase = new RemoveProductInShoppingCartAdapter(repo)
+        const response = await useCase.removeProduct(2)
+
+        expect(response.getValue()).toBeTruthy()
+        const products = await repo.getAllProducts()
+        expect(products.getValue()).toHaveLength(2)
+        expect(products.getValue()).not.toStrictEqual({
+            description: "Teste",
+            id: 2,
+            imageUrl: "imagem.jpg",
+            price: 10,
+            title: "Teste"
+        })
     })
 })
