@@ -15,7 +15,7 @@ export class ListProductsGateway implements IListProductsGateway {
     
     async getProducts(): Promise<Result<ProductResponse[]>> {
         const data = await this.client.get<ProductResponse[]>({
-            url: "https://fakestoreapi.com/products?limit=5",
+            url: "https://fakestoreapi.com/products",
         })
 
         if(data.isFailure) return Result.fail(data.error)
