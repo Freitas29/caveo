@@ -9,6 +9,7 @@ import { ProductsRepositoryZuntand } from "@/application/repository/ProductRepos
 import { ProductOutputInShoppingCartOutput } from "@/domain/useCases/shopping-cart/GetAllProductsInShoppingCart";
 import { useMemo } from "react";
 import { useShoppingCart } from "@/app/shopping-cart/useShoppingCart";
+import { RemoveProductInShoppingCartAdapter } from "@/application/shopping-cart/RemoveProductInShoppingCartAdapter";
 
 function cardItem(props: ProductOutputInShoppingCartOutput, removeProduct: (id: number) => void) {
     return (
@@ -51,7 +52,9 @@ function cardItem(props: ProductOutputInShoppingCartOutput, removeProduct: (id: 
 
 export default function Header() {
     const repo = useShoppingCart()
-    const getAllProductsUseCase = useMemo(() => new GetAllProductsInShoppingCartAdapter(new ProductsRepositoryZuntand(repo)), [repo]);
+    const zuntandRepo = useMemo(() => new ProductsRepositoryZuntand(repo), [repo])
+    const getAllProductsUseCase = useMemo(() => new GetAllProductsInShoppingCartAdapter(zuntandRepo), [zuntandRepo]);
+    const removeProductUseCase = useMemo(() => new RemoveProductInShoppingCartAdapter(zuntandRepo), [zuntandRepo]);
 
 
    const [products, setProduct] = useState<ProductOutputInShoppingCartOutput[]>([])
@@ -96,7 +99,11 @@ export default function Header() {
                         'aria-labelledby': 'basic-button',
                     }}
                 >
-                    {products.map((product) => (<MenuItem selected key={product.id} onClick={() => handleClose}>{cardItem(product, () => {})}</MenuItem>))}
+                    {products.map((product) => (
+                        <MenuItem selected key={product.id} onClick={() => handleClose}>
+                            {cardItem(product, (id: number) => removeProductUseCase.removeProduct(id))}
+                        </MenuItem>
+                    ))}
                 </Menu>
                 <IconButton
                     id="basic-button"

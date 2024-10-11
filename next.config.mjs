@@ -1,4 +1,8 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
-
-export default nextConfig;
+ const nextConfig = {
+  sassOptions: {
+    includePaths: ['**.scss'],
+  },
+}
+ 
+export default nextConfig
