@@ -8,11 +8,12 @@ import { ProductsRepositoryZuntand } from "@/application/repository/ProductRepos
 import { useMemo } from "react";
 import { AddProductInShoppingCartAdapter } from "@/application/shopping-cart/AddProductInShoppingCartAdapter";
 import { useShoppingCart } from "./shopping-cart/useShoppingCart";
+import { AddProductInShoppingCart } from "@/domain/useCases/shopping-cart/AddProductInShoppingCart";
 
 export default function Home() {
   const repo = useShoppingCart()
   const zustandRepo = useMemo(() => new ProductsRepositoryZuntand(repo), [repo])
-  const addProductUseCase = useMemo(() => new AddProductInShoppingCartAdapter(zustandRepo), [zustandRepo]);
+  const addProductUseCase: AddProductInShoppingCart = useMemo(() => new AddProductInShoppingCartAdapter(zustandRepo), [zustandRepo]);
 
 
   const useCase = container.get<ListProducts>(listProductsUseCaseDI)
@@ -53,7 +54,7 @@ export default function Home() {
 
   return (
     <Container sx={{
-      marginTop: 3,
+      marginTop: 16,
       marginBottom: 3,
     }}>
       <Grid2 container spacing={2}>

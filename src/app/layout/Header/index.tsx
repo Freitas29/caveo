@@ -78,7 +78,11 @@ export default function Header() {
 
 
     return (
-        <Container sx={{
+        <Container 
+            maxWidth={false}
+            sx={{
+            position: "fixed",
+            zIndex: 2,
             margin: 0,
             height: '10vh',
             display: "flex",
