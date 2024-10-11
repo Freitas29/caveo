@@ -1,9 +1,10 @@
 import { GetAllProductsInShoppingCart, GetAllProductsOutput } from "@/domain/useCases/shopping-cart/GetAllProductsInShoppingCart";
-import { ProductsRepositoryZuntand } from "../repository/ProductRepositoryZustand";
+import { ProductsRepository } from "@/domain/repository/ProductsRespository";
+import { Product } from "@/domain/entities/Product";
 
 export class GetAllProductsInShoppingCartAdapter implements GetAllProductsInShoppingCart {
     constructor(
-        private readonly shoppingCartRepo: ProductsRepositoryZuntand
+        private readonly shoppingCartRepo: ProductsRepository<Product>
     ) { }
     
     async getAllProducts(): Promise<GetAllProductsOutput> {
