@@ -9,7 +9,7 @@ export type ProductState = {
   image: string
 }
 
-type ShoppingCartState = {
+export type ShoppingCartState = {
   products: ProductState[]
   addProduct: (product: ProductState) => void
   removeProduct: (id: number) => void
@@ -32,7 +32,6 @@ export const useShoppingCart = create<ShoppingCartState>()(
             }
           }),
           removeProduct: (productId) => set((state) => {
-            debugger
             return {
               ...state,
                products: state.products.filter(product => product.id !== productId),

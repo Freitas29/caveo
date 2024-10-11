@@ -2,17 +2,21 @@
 import { Badge, Box, Card, CardContent, CardMedia, Container, Grid2, IconButton, MenuItem, Typography } from "@mui/material";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import Delete from "@mui/icons-material/Delete";
-import { ProductState, useShoppingCart } from "@/app/shopping-cart/useShoppingCart";
 import Menu from '@mui/material/Menu';
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { GetAllProductsInShoppingCartAdapter } from "@/application/shopping-cart/GetAllProductsInShoppingCartAdapter";
+import { ProductsRepositoryZuntand } from "@/application/repository/ProductRepositoryZustand";
+import { ProductOutputInShoppingCartOutput } from "@/domain/useCases/shopping-cart/GetAllProductsInShoppingCart";
+import { useMemo } from "react";
+import { useShoppingCart } from "@/app/shopping-cart/useShoppingCart";
 
-function cardItem(props: ProductState, removeProduct: (id: number) => void) {
+function cardItem(props: ProductOutputInShoppingCartOutput, removeProduct: (id: number) => void) {
     return (
         <Card sx={{ display: 'flex', width: "100%" }} variant="elevation">
             <CardMedia
                 component="img"
                 sx={{ width: "80px", objectFit: "contain" }}
-                image={props.image}
+                image={props.imageUrl}
                 alt={props.title}
             />
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -46,9 +50,11 @@ function cardItem(props: ProductState, removeProduct: (id: number) => void) {
 }
 
 export default function Header() {
-    const products = useShoppingCart((state) => state.products)
+    const repo = useShoppingCart()
+    const getAllProductsUseCase = useMemo(() => new GetAllProductsInShoppingCartAdapter(new ProductsRepositoryZuntand(repo)), [repo]);
 
-    const { removeProduct } = useShoppingCart()
+
+   const [products, setProduct] = useState<ProductOutputInShoppingCartOutput[]>([])
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -59,6 +65,14 @@ export default function Header() {
         if(!reason) return
         setAnchorEl(null);
     };
+
+    useEffect(() => {
+        (async () => {
+            const response = await getAllProductsUseCase.getAllProducts()
+            setProduct(response.products)
+        })();
+    }, [getAllProductsUseCase])
+
 
     return (
         <Container sx={{
@@ -82,7 +96,7 @@ export default function Header() {
                         'aria-labelledby': 'basic-button',
                     }}
                 >
-                    {products.map((product) => (<MenuItem selected key={product.id} onClick={() => handleClose}>{cardItem(product, removeProduct)}</MenuItem>))}
+                    {products.map((product) => (<MenuItem selected key={product.id} onClick={() => handleClose}>{cardItem(product, () => {})}</MenuItem>))}
                 </Menu>
                 <IconButton
                     id="basic-button"

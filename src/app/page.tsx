@@ -4,11 +4,16 @@ import { useQuery } from "@tanstack/react-query";
 import { Container, Grid2, Skeleton } from "@mui/material";
 import { ListProducts, listProductsUseCaseDI } from "@/domain/useCases/products/ListProducts";
 import { ProductCard } from "./products/ProductCard";
+import { ProductsRepositoryZuntand } from "@/application/repository/ProductRepositoryZustand";
+import { useMemo } from "react";
+import { AddProductInShoppingCartAdapter } from "@/application/shopping-cart/AddProductInShoppingCartAdapter";
 import { useShoppingCart } from "./shopping-cart/useShoppingCart";
 
-
 export default function Home() {
-  const { addProduct } = useShoppingCart()
+  const repo = useShoppingCart()
+  const zustandRepo = useMemo(() => new ProductsRepositoryZuntand(repo), [repo])
+  const addProductUseCase = useMemo(() => new AddProductInShoppingCartAdapter(zustandRepo), [zustandRepo]);
+
 
   const useCase = container.get<ListProducts>(listProductsUseCaseDI)
   const products = useQuery({
@@ -30,7 +35,11 @@ export default function Home() {
         description: item.description,
         image: item.image,
         title: item.title,
-        onClick: () => addProduct(item),
+        onClick: () => addProductUseCase.addProduct({
+          id: item.id,
+          title: item.title,
+          imageUrl: item.image,
+        }),
       })
    }
    </Grid2>
